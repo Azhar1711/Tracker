@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Generator Link Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4">Buat Link Tracker</h1>
+    <input type="text" id="urlInput" placeholder="Masukkan URL tujuan" class="w-full p-2 border rounded mb-4">
+    <button onclick="generateLink()" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">
+        Buat Link
+    </button>
+    <div id="result" class="mt-4"></div>
+</div>
+
+<script>
+function generateLink() {
+    const url = document.getElementById('urlInput').value;
+    fetch('/generate', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({url})
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('result').innerHTML = `
+            <p class="text-green-600">Link Tracker:</p>
+            <a href="${data.shortUrl}" target="_blank" class="text-blue-500">${data.shortUrl}</a>
+        `;
+    });
+}
+</script>
+
+</body>
+</html>
